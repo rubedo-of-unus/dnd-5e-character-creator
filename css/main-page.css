@@ -1,0 +1,1046 @@
+.whole-container {
+  height: 940px;
+  width: 1890px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-creator {
+  height: 500px;
+  width: 600px;
+  background-color: antiquewhite;
+  border-radius: 5%;
+  font-size: 2rem;
+}
+
+/* Character Form */
+.form-container {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
+.form-container hr {
+  width: 100%;
+  border: 5px solid black;
+}
+
+.form-container select,
+input {
+  font-size: 2rem;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
+  height: 400px;
+}
+
+.form-container button {
+  font-size: 2rem;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #8b6a3e;
+  color: white;
+}
+
+/* .info-box {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f5f5dc;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 14px;
+} */
+
+/* Modal Popup */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: antiquewhite;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-content button {
+  margin-top: 15px;
+}
+
+/* Saving Throw Result */
+.dice {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dice.hidden {
+  display: none;
+}
+
+.dice-result-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+}
+
+.dice-result-content button {
+  margin-top: 15px;
+}
+
+#d20 {
+  width: 120px;
+  transition: transform 0.1s;
+}
+
+#dice-result-buttons {
+  display: flex;
+  gap: 50px;
+}
+
+/* .animation {
+  animation: rotate-fadeout 2s;
+}
+
+@keyframes rotate-fadeout {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+/* .rolling {
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+} */
+
+#saving-throw-result {
+  text-align: center;
+}
+
+/* Character Sheet */
+.sheet-container {
+  display: none;
+  width: 1510px;
+  height: 910px;
+  background-color: antiquewhite;
+  border-radius: 2%;
+}
+
+/* Disable spinners for numerical inputs */
+
+/* Chrome, Edge, Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#character-name {
+  display: none;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.statistics {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  top: 15px;
+}
+
+.statistics label {
+  text-align: center;
+  cursor: pointer;
+}
+
+.stat-control {
+  display: flex;
+  align-items: center;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modifier {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: azure;
+  border: 2px solid black;
+  cursor: default;
+}
+
+.plus {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid green; /* down arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+.minus {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid red; /* up arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+.saving {
+  display: flex;
+  align-items: center;
+}
+
+.saving-throw {
+  cursor: pointer;
+}
+
+#strength {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#dexterity {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#constitution {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#intelligence {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#wisdom {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#charisma {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#reroll {
+  width: 90px;
+  height: 40px;
+  border-radius: 10%;
+  cursor: pointer;
+  position: relative;
+  left: 15px;
+}
+
+/* Proficiency, Level, Speed and Size */
+.info-skills {
+  display: flex;
+  flex-direction: column;
+}
+
+.character-info {
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 805px;
+  height: 400px;
+  border: 2px solid black;
+}
+
+.character-decision {
+  display: flex;
+  gap: 50px;
+  width: 805px;
+  height: 150px;
+}
+
+.background {
+  display: inline;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.race {
+  display: inline;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.archetype {
+  display: inline;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.character-build {
+  display: flex;
+  gap: 50px;
+  width: 805px;
+  height: 150px;
+}
+
+.character-level {
+  display: flex;
+  gap: 20px;
+}
+
+#level {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+.proficiency {
+  width: 50px;
+  height: 40px;
+  border-radius: 10%;
+  text-align: center;
+  display: inline-block;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.speed {
+  width: 50px;
+  height: 40px;
+  border-radius: 10%;
+  text-align: center;
+  display: inline-block;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.size {
+  width: 50px;
+  height: 40px;
+  border-radius: 10%;
+  text-align: center;
+  display: inline-block;
+  border: 2px solid black;
+  background-color: aliceblue;
+  cursor: default;
+}
+
+.control-level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+}
+
+.plus-level {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid green; /* down arrow color */
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.minus-level {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid red; /* up arrow color */
+  cursor: pointer;
+  background-color: transparent;
+}
+
+/* Hit Points */
+.health {
+  display: flex;
+  align-items: center;
+}
+
+/* Maximum HP */
+#health {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+/* Current HP */
+#current-hp {
+  width: 70px;
+  height: 40px;
+  text-align: center;
+  background-color: aliceblue;
+  border-radius: 10%;
+  border: 2px solid black;
+  cursor: default;
+}
+
+/* Armour Class */
+.armour-class {
+  display: flex;
+  align-items: center;
+}
+
+#armour-class {
+  width: 50px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+/* Skills */
+.skills {
+  display: flex;
+  width: 805px;
+  height: 160px;
+  border: 2px solid black;
+  font-size: x-large;
+}
+
+#str-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#str {
+  display: flex;
+  align-items: center;
+}
+
+#dex {
+  display: flex;
+  flex-direction: column;
+}
+
+#int {
+  display: flex;
+  flex-direction: column;
+}
+
+#wis {
+  display: flex;
+  flex-direction: column;
+}
+
+#cha {
+  display: flex;
+  flex-direction: column;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Skill Checks */
+.skill-check-box {
+  cursor: pointer;
+}
+
+.skill-check {
+  cursor: pointer;
+}
+
+/* Health and Damage */
+
+#damage-heal {
+  width: 70px;
+  height: 45px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#damage-HP {
+  width: 70px;
+  height: 45px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+  background-color: maroon;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+#damage-HP:hover {
+  background-color: brown;
+  color: whitesmoke;
+}
+
+#heal-HP {
+  width: 50px;
+  height: 45px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+  background-color: greenyellow;
+  cursor: pointer;
+}
+
+#heal-HP:hover {
+  background-color: green;
+  color: whitesmoke;
+}
+
+.plus-health {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid green; /* down arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+.minus-health {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid red; /* up arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+/* Armour Class */
+
+.plus-ac {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid green; /* down arrow color */
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.minus-ac {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid red; /* up arrow color */
+  cursor: pointer;
+  background-color: transparent;
+}
+
+/* Death Saving Throw */
+#death-saving-throw {
+  cursor: pointer;
+}
+
+.death-saves {
+  display: flex;
+  align-items: center;
+}
+
+#death-saves {
+  display: flex;
+  flex-direction: column;
+}
+
+.success-death-save {
+  display: flex;
+  align-items: center;
+}
+
+.success-death-save img {
+  display: none;
+  width: 50px;
+  height: 50px;
+}
+
+.fail-death-save {
+  display: flex;
+  align-items: center;
+}
+
+.fail-death-save img {
+  display: none;
+  width: 50px;
+  height: 50px;
+}
+
+#success-1 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#success-2 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#success-3 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#fail-1 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#fail-2 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#fail-3 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+#check-1 {
+  width: 30px;
+  height: 30px;
+}
+
+#check-2 {
+  width: 30px;
+  height: 30px;
+}
+
+#check-3 {
+  width: 30px;
+  height: 30px;
+}
+
+#x-1 {
+  width: 30px;
+  height: 30px;
+}
+
+#x-2 {
+  width: 30px;
+  height: 30px;
+}
+
+#x-3 {
+  width: 30px;
+  height: 30px;
+}
+
+/* Languages and Currency */
+.languages {
+  width: 805px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  font-size: x-large;
+}
+
+.currency {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.money {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.copper {
+  display: flex;
+  align-items: center;
+}
+
+#copper {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+label[data-currency="cp"] {
+  color: #b87333; /* copper color */
+  cursor: pointer;
+}
+
+.silver {
+  display: flex;
+  align-items: center;
+}
+
+#silver {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+label[data-currency="sp"] {
+  color: silver;
+  cursor: pointer;
+}
+
+.electrum {
+  display: flex;
+  align-items: center;
+}
+
+#electrum {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+label[data-currency="ep"] {
+  color: #c18d30;
+  cursor: pointer;
+}
+
+.gold {
+  display: flex;
+  align-items: center;
+}
+
+#gold {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+label[data-currency="gp"] {
+  color: goldenrod;
+  cursor: pointer;
+}
+
+.platinum {
+  display: flex;
+  align-items: center;
+}
+
+#platinum {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+label[data-currency="pp"] {
+  color: #7d7d7c;
+  cursor: pointer;
+}
+
+.plus-money {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid green; /* down arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+.minus-money {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid red; /* up arrow color */
+  cursor: pointer;
+  transform: rotate(90deg);
+  background-color: transparent;
+}
+
+#languages {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+#languages button {
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rebeccapurple;
+  font-size: x-large;
+  color: white;
+}
+
+/* Language Popup */
+.linguistic {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.linguistic.hidden {
+  display: none;
+}
+
+.language-content {
+  background: antiquewhite;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.language-content button {
+  margin-top: 15px;
+}
+
+.language-content select {
+  font-size: 2rem;
+}
+
+.language-plus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.added-languages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Dice Roller */
+#roll-dice {
+  width: 810px;
+  height: 70px;
+  font-size: 3rem;
+  cursor: pointer;
+  background-color: darkblue;
+  color: gold;
+}
+
+#roll-dice:hover {
+  background-color: dodgerblue;
+  color: gold;
+}
+
+/* Modal Popup */
+.roller {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.roller.hidden {
+  display: none;
+}
+
+.dice-roller-info {
+  background: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.roll-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.dice-roller-result {
+  background: antiquewhite;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.dice-roller-result button {
+  margin-top: 15px;
+}
+
+#die-number {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+#die-type {
+  width: 70px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 10%;
+  text-align: center;
+}
+
+/* Controls and Character Image */
+
+.miscellaneous {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 848px;
+  border: 2px solid black;
+}
+
+.character-image {
+  border: 2px solid black;
+}
+
+.character-image img {
+  width: 500px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.controls button {
+  font-size: large;
+  cursor: pointer;
+}
+
+/* Save and Load */
+.absent {
+  display: none;
+}

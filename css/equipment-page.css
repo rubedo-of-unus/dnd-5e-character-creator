@@ -1,0 +1,121 @@
+/* Equipment Container */
+.equipment-container {
+  display: none;
+  width: 1510px;
+  height: 910px;
+  background-color: antiquewhite;
+  border-radius: 2%;
+}
+
+.equipment-page {
+  display: flex;
+  flex-direction: column;
+  font-size: 3rem;
+}
+
+.item-container {
+  width: 1480px;
+  border: 2px solid black;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px; /* spacing between button/label and items */
+}
+
+/* Weapons */
+.weapon-plus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.added-weapons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+#weapons button {
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rebeccapurple;
+  font-size: x-large;
+  color: white;
+}
+
+/* Armour */
+.armour-plus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.added-armour {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+#armour button {
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rebeccapurple;
+  font-size: x-large;
+  color: white;
+}
+
+/* Items */
+.item-plus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.added-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+#items button {
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rebeccapurple;
+  font-size: x-large;
+  color: white;
+}
+
+/* Equipment Popup */
+.equipment {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.equipment.hidden {
+  display: none;
+}
+
+.equipment-content {
+  background: antiquewhite;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.equipment-content button {
+  margin-top: 15px;
+}
+
+.equipment-content select {
+  font-size: 2rem;
+}
