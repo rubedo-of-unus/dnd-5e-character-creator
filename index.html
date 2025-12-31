@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>D&D 5th Edition Character Creator</title>
+    <link rel="stylesheet" href="css/main-page.css" />
+    <link rel="stylesheet" href="css/equipment-page.css" />
+  </head>
+  <body>
+    <div class="whole-container">
+      <div class="character-creator">
+        <div class="form-container">
+          <form>
+            <div>
+              <label>
+                Name
+                <input
+                  id="character"
+                  type="text"
+                  placeholder="Enter character name"
+                  pattern="[A-Za-z\s]+"
+                  title="Only letters and spaces are allowed"
+                  required
+                />
+              </label>
+            </div>
+            <hr />
+            <div>
+              <label for="race-options">Race</label>
+              <select name="race" id="race-options" required>
+                <!-- <option value="" disabled selected hidden>Select a race</option> -->
+              </select>
+              <!-- <div id="race-info" class="info-box">
+              <em>Select a race to see details.</em>
+            </div> -->
+            </div>
+            <hr />
+            <div>
+              <label for="class-options">Class</label>
+              <select name="class" id="class-options" required>
+                <!-- <option value="" disabled selected hidden>
+                  Select a class
+                </option> -->
+              </select>
+            </div>
+            <hr />
+            <div>
+              <label for="background-options">Background</label>
+              <select name="background" id="background-options" required>
+                <!-- <option value="" disabled selected hidden>
+                  Select a background
+                </option> -->
+              </select>
+            </div>
+            <hr />
+            <button id="generate-character" type="submit">
+              Generate Character
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Main Page -->
+      <div class="sheet-container">
+        <div style="cursor: default" id="character-name"></div>
+        <div class="character-sheet">
+          <div class="statistics">
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="st" />
+              <label class="saving-throw-check">STRENGTH (STR)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="strength" />
+                <div class="modifier" data-ability="might"></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="de" />
+              <label class="saving-throw-check">DEXTERITY (DEX)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="dexterity" />
+                <div
+                  id="initiative"
+                  class="modifier"
+                  data-ability="finesse"
+                ></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="co" />
+              <label class="saving-throw-check">CONSTITUTION (CON)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="constitution" />
+                <div class="modifier" data-ability="resolve"></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="in" />
+              <label class="saving-throw-check">INTELLIGENCE (INT)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="intelligence" />
+                <div class="modifier" data-ability="erudition"></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="wi" />
+              <label class="saving-throw-check">WISDOM (WIS)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="wisdom" />
+                <div class="modifier" data-ability="pragmatism"></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <div class="saving">
+              <input class="saving-throw" type="checkbox" id="ch" />
+              <label class="saving-throw-check">CHARISMA (CHA)</label>
+            </div>
+            <div class="stat-control">
+              <button class="minus"></button>
+              <div class="score">
+                <input type="number" min="1" max="40" id="charisma" />
+                <div class="modifier" data-ability="conveyance"></div>
+              </div>
+              <button class="plus"></button>
+            </div>
+            <button id="reroll">Reroll Statistics</button>
+          </div>
+          <div class="info-skills">
+            <div class="character-info">
+              <div class="character-decision">
+                <div>
+                  <label>Background: </label>
+                  <div class="background"></div>
+                </div>
+                <div>
+                  <label>Race: </label>
+                  <div class="race"></div>
+                </div>
+                <div>
+                  <label>Class: </label>
+                  <div class="archetype"></div>
+                </div>
+              </div>
+              <div class="character-build">
+                <div>
+                  <label>Proficiency Bonus: </label>
+                  <div class="proficiency"></div>
+                </div>
+                <div>
+                  <label>Speed: </label>
+                  <div class="speed"></div>
+                </div>
+                <div>
+                  <label>Size: </label>
+                  <div class="size"></div>
+                </div>
+              </div>
+              <div class="character-level">
+                <div class="level">
+                  <label>Level: </label>
+                  <div class="control-level">
+                    <button class="plus-level"></button>
+                    <input min="1" max="40" type="number" id="level" />
+                    <button class="minus-level"></button>
+                  </div>
+                </div>
+                <div class="armour-class">
+                  <label>Armour Class (AC): </label>
+                  <div class="control-level">
+                    <button class="plus-ac"></button>
+                    <input min="1" max="40" type="number" id="armour-class" />
+                    <button class="minus-ac"></button>
+                  </div>
+                </div>
+                <div class="health">
+                  <div style="display: flex; flex-direction: column">
+                    <div style="display: flex; align-items: center">
+                      <div class="control-level">
+                        <label style="font-size: small">Current HP</label>
+                        <div id="current-hp"></div>
+                      </div>
+                      <div
+                        style="
+                          display: flex;
+                          flex-direction: column;
+                          align-items: center;
+                        "
+                      >
+                        <label style="font-size: small">Maximum HP</label>
+                        <div style="flex-direction: row" class="control-level">
+                          <button
+                            id="health-down"
+                            class="minus-health"
+                          ></button>
+                          <input type="number" id="health" />
+                          <button id="health-up" class="plus-health"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center">
+                      <button id="damage-HP">DAMAGE</button>
+                      <input min="1" id="damage-heal" type="number" />
+                      <button id="heal-HP">HEAL</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center">
+                <div>Hit Dice</div>
+                <div class="death-saves">
+                  <label id="death-saving-throw">Death Saves: </label>
+                  <div id="death-saves">
+                    <div class="success-death-save">
+                      <div id="success-1"></div>
+                      <img
+                        id="check-1"
+                        src="assets/img/icons/check.png"
+                        alt="check-1"
+                      />
+                      <div id="success-2"></div>
+                      <img
+                        id="check-2"
+                        src="assets/img/icons/check.png"
+                        alt="check-2"
+                      />
+                      <div id="success-3"></div>
+                      <img
+                        id="check-3"
+                        src="assets/img/icons/check.png"
+                        alt="check-3"
+                      />
+                    </div>
+                    <div class="fail-death-save">
+                      <div id="fail-1"></div>
+                      <img
+                        id="x-1"
+                        src="assets/img/icons/remove.png"
+                        alt="x-1"
+                      />
+                      <div id="fail-2"></div>
+                      <img
+                        id="x-2"
+                        src="assets/img/icons/remove.png"
+                        alt="x-2"
+                      />
+                      <div id="fail-3"></div>
+                      <img
+                        id="x-3"
+                        src="assets/img/icons/remove.png"
+                        alt="x-3"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="skills">
+              <div id="str-list">
+                <label>STR</label>
+                <div id="str">
+                  <input
+                    id="athletics"
+                    class="skill-check-box"
+                    type="checkbox"
+                  />
+                  <label class="skill-check">Athletics</label>
+                </div>
+              </div>
+              <div id="dex-list">
+                <label>DEX</label>
+                <div id="dex">
+                  <div>
+                    <input
+                      id="acrobatics"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Acrobatics</label>
+                  </div>
+                  <div>
+                    <input
+                      id="sleight-hand"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Sleight of Hand</label>
+                  </div>
+                  <div>
+                    <input
+                      id="stealth"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label for="stealth" class="skill-check">Stealth</label>
+                  </div>
+                </div>
+              </div>
+              <div id="int-list">
+                <label>INT</label>
+                <div id="int">
+                  <div>
+                    <input
+                      id="arcanum"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label for="arcanum" class="skill-check">Arcanum</label>
+                  </div>
+                  <div>
+                    <input
+                      id="history"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">History</label>
+                  </div>
+                  <div>
+                    <input
+                      id="investigation"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Investigation</label>
+                  </div>
+                  <div>
+                    <input
+                      id="nature"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Nature</label>
+                  </div>
+                  <div>
+                    <input
+                      id="religion"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Religion</label>
+                  </div>
+                </div>
+              </div>
+              <div id="wis-list">
+                <label>WIS</label>
+                <div id="wis">
+                  <div>
+                    <input
+                      id="animal-handling"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Animal Handling</label>
+                  </div>
+                  <div>
+                    <input
+                      id="insight"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Insight</label>
+                  </div>
+                  <div>
+                    <input
+                      id="medicine"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Medicine</label>
+                  </div>
+                  <div>
+                    <input
+                      id="perception"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Perception</label>
+                  </div>
+                  <div>
+                    <input
+                      id="survival"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
+                    <label class="skill-check">Survival</label>
+                  </div>
+                </div>
+              </div>
+              <div id="cha-list">
+                <label>CHA</label>
+                <div id="cha">
+                  <div>
+                    <input id="deception" type="checkbox" />
+                    <label class="skill-check">Deception</label>
+                  </div>
+                  <div>
+                    <input id="intimidation" type="checkbox" />
+                    <label class="skill-check">Intimidation</label>
+                  </div>
+                  <div>
+                    <input id="performance" type="checkbox" />
+                    <label class="skill-check">Performance</label>
+                  </div>
+                  <div>
+                    <input id="persuasion" type="checkbox" />
+                    <label class="skill-check">Persuasion</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="languages">
+              <div class="currency">
+                <label>Currency: </label>
+                <div class="money">
+                  <label data-currency="cp">Copper (CP)</label>
+                  <div class="copper">
+                    <button class="minus-money"></button>
+                    <input min="0" id="copper" type="number" />
+                    <button class="plus-money"></button>
+                  </div>
+                </div>
+                <div class="money">
+                  <label data-currency="sp">Silver (SP)</label>
+                  <div class="silver">
+                    <button class="minus-money"></button>
+                    <input min="0" id="silver" type="number" />
+                    <button class="plus-money"></button>
+                  </div>
+                </div>
+                <div class="money">
+                  <label data-currency="ep">Electrum (EP)</label>
+                  <div class="electrum">
+                    <button class="minus-money"></button>
+                    <input min="0" id="electrum" type="number" />
+                    <button class="plus-money"></button>
+                  </div>
+                </div>
+                <div class="money">
+                  <label data-currency="gp">Gold (GP)</label>
+                  <div class="gold">
+                    <button class="minus-money"></button>
+                    <input min="0" id="gold" type="number" />
+                    <button class="plus-money"></button>
+                  </div>
+                </div>
+                <div class="money">
+                  <label data-currency="pp">Platinum (PP)</label>
+                  <div class="platinum">
+                    <button class="minus-money"></button>
+                    <input min="0" id="platinum" type="number" />
+                    <button class="plus-money"></button>
+                  </div>
+                </div>
+              </div>
+              <div id="languages">
+                <div class="language-plus">
+                  <button id="language-add">+</button>
+                  <label>Languages: </label>
+                </div>
+                &nbsp; &nbsp;
+                <div class="added-languages"></div>
+              </div>
+            </div>
+            <div class="dice-roller">
+              <button id="roll-dice">Dice Roller</button>
+            </div>
+          </div>
+          <div class="miscellaneous">
+            <div class="character-image">
+              <img src="assets/img/icons/user.png" alt="character image" />
+              <label for="image-character">Upload Image</label>
+              <input id="image-character" type="file" />
+            </div>
+            <div class="controls">
+              <button id="backstory">BACKSTORY</button>
+              <button id="bonds">BONDS</button>
+              <button id="flaws">FLAWS</button>
+              <br />
+              <button id="equipment">EQUIPMENT</button>
+              <button id="items">ITEMS</button>
+              <button id="spells">SPELLS</button>
+              <br />
+              <button id="new-character">NEW CHARACTER</button>
+              <button id="save">SAVE</button>
+              <button id="load">LOAD</button>
+              <input
+                type="file"
+                id="load-input"
+                accept=".json"
+                class="absent"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Equipment Page -->
+      <div class="equipment-container">
+        <div class="equipment-page">
+          <label style="text-align: center"
+            ><b><i>Equipment</i></b></label
+          >
+          <div id="weapons" class="item-container">
+            <div class="weapon-plus">
+              <button id="weapon-add">+</button>
+              <label>Weapons: </label>
+            </div>
+            &nbsp; &nbsp;
+            <div class="added-weapons"></div>
+          </div>
+          <div id="armour" class="item-container">
+            <div class="armour-plus">
+              <button id="armour-add">+</button>
+              <label>Armour: </label>
+            </div>
+            &nbsp; &nbsp;
+            <div class="added-armour"></div>
+          </div>
+          <div id="items" class="item-container">
+            <div class="item-plus">
+              <button id="item-add">+</button>
+              <label>Items: </label>
+            </div>
+            &nbsp; &nbsp;
+            <div class="added-items"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="modal-popup" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="title"></h2>
+        <p id="description"></p>
+
+        <button id="close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Language Popup -->
+    <div id="language-popup" class="linguistic hidden">
+      <div class="language-content">
+        <h2 id="language-title"></h2>
+        <select name="languages" id="language-options"></select>
+        <br />
+        <button id="close-language">Close</button>
+      </div>
+    </div>
+
+    <!-- Skill Check and Saving Throw -->
+    <div id="dice-result-popup" class="dice hidden">
+      <div class="dice-result-content">
+        <h2 id="saving-throw-title"></h2>
+        <img id="d20" src="assets/img/d20/d20-1.png" alt="d20 die" />
+        <div id="saving-throw-result"></div>
+
+        <div id="dice-result-buttons">
+          <button id="close-dice-result">Close</button>
+          <button id="repeat-dice-result">Reroll</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dice Roller -->
+    <div id="dice-popup" class="roller hidden">
+      <form class="dice-roller-info">
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <label for="die-number">Die Number</label>
+          <input id="die-number" min="1" type="number" required />
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <label for="die-type">Die Type</label>
+          <input id="die-type" min="1" type="number" required />
+        </div>
+        <div class="roll-btn-wrapper">
+          <button type="submit">Roll</button>
+        </div>
+      </form>
+      <div class="dice-roller-result">
+        <h2 id="dice-type"></h2>
+        <div id="dice-images"></div>
+        <div id="dice-roll"></div>
+
+        <div id="dice-roller-buttons">
+          <button id="close-dice-roller">Close</button>
+          <button id="repeat-dice-roll">Reroll</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Equipment Popup -->
+    <div id="equipment-popup" class="equipment hidden">
+      <div class="equipment-content">
+        <h2 id="equipment-title"></h2>
+        <select size="5" name="equipments" id="equipment-options"></select>
+        <br />
+        <button id="close-equipment">Close</button>
+      </div>
+    </div>
+  </body>
+  <script src="js/app.js"></script>
+</html>
