@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html>
   <head>
     <title>D&D 5th Edition Character Creator</title>
     <link rel="stylesheet" href="css/main-page.css" />
     <link rel="stylesheet" href="css/equipment-page.css" />
+    <link rel="stylesheet" href="css/backstory-page.css" />
   </head>
   <body>
     <div class="whole-container">
@@ -223,7 +224,6 @@
                 </div>
               </div>
               <div style="display: flex; align-items: center">
-                <div>Hit Dice</div>
                 <div class="death-saves">
                   <label id="death-saving-throw">Death Saves: </label>
                   <div id="death-saves">
@@ -269,6 +269,7 @@
                     </div>
                   </div>
                 </div>
+                <div>Hit Dice</div>
               </div>
             </div>
             <div class="skills">
@@ -515,7 +516,7 @@
           <label style="text-align: center"
             ><b><i>Equipment</i></b></label
           >
-          <div id="weapons" class="item-container">
+          <!-- <div id="weapons" class="item-container">
             <div class="weapon-plus">
               <button id="weapon-add">+</button>
               <label>Weapons: </label>
@@ -538,6 +539,84 @@
             </div>
             &nbsp; &nbsp;
             <div class="added-items"></div>
+          </div> -->
+          <div class="inventory-container">
+            <button id="add-weapons">Add Weapons</button>
+            <button id="add-armour">Add Armour</button>
+            <button id="add-items">Add Items</button>
+          </div>
+          <div class="inventory">
+            <div style="display: flex; align-items: center">
+              <svg
+                style="cursor: pointer"
+                id="inventory-exit"
+                width="120"
+                height="60"
+                viewBox="0 0 120 60"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Return to Sheet</title>
+                <path d="M60 5 L15 30 L60 55 V40 H115 V20 H60 Z" fill="brown" />
+              </svg>
+              <label>Inventory</label>
+              &nbsp;
+              <label id="inventory-label"></label>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 20px">
+              <div id="current-weight" style="font-size: large"></div>
+              <div id="remaining-weight" style="font-size: large"></div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 20px">
+              <div id="display-weapons">
+                <label style="font-size: 2rem">WEAPONS</label>
+              </div>
+              <div id="display-armour">
+                <label style="font-size: 2rem">ARMOUR</label>
+              </div>
+              <div id="display-items">
+                <label style="font-size: 2rem">ITEMS</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Backstory Page -->
+      <div class="backstory-container">
+        <div class="backstory-page">
+          <label style="text-align: center"
+            ><b><i>History</i></b></label
+          >
+          <div style="display: flex; align-items: center">
+            <svg
+              style="cursor: pointer"
+              id="backstory-exit"
+              width="120"
+              height="60"
+              viewBox="0 0 120 60"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Return to Sheet</title>
+              <path d="M60 5 L15 30 L60 55 V40 H115 V20 H60 Z" fill="brown" />
+            </svg>
+            <label>Backstory <u>(Markdown syntax supported)</u></label>
+          </div>
+          <div>
+            <div id="backstory-preview"></div>
+            <textarea
+              id="backstory-text"
+              placeholder="Enter character backstory"
+            ></textarea>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 100px;
+            "
+          >
+            <button id="backstory-confirm">Confirm Backstory</button>
+            <button id="backstory-clear">Clear Backstory</button>
           </div>
         </div>
       </div>
@@ -615,4 +694,7 @@
     </div>
   </body>
   <script src="js/app.js"></script>
+
+  <!-- Mardown Parsing Library -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </html>
