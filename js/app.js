@@ -37,6 +37,8 @@ const generateCharacter = document.getElementById("generate-character");
 const characterSheet = document.querySelector(".character-sheet");
 const sheet = document.querySelector(".sheet-container");
 const equipmentPage = document.querySelector(".equipment-container");
+const backstoryPage = document.querySelector(".backstory-container");
+const backstoryPreview = document.querySelector("#backstory-preview");
 const nameDisplay = document.querySelector("#character-name");
 const modifiers = document.querySelectorAll(".modifier");
 const savingThrowCheckboxes = document.querySelectorAll(".saving-throw");
@@ -111,11 +113,17 @@ const platinum = document.querySelector("#platinum");
 const addLanguage = document.querySelector("#language-add");
 const languageContainer = document.querySelector(".added-languages");
 const addWeapon = document.querySelector("#weapon-add");
+const weaponAdd = document.querySelector("#add-weapons");
 const weaponContainer = document.querySelector(".added-weapons");
+const weaponDisplay = document.querySelector("#display-weapons");
 const addArmour = document.querySelector("#armour-add");
+const armourAdd = document.querySelector("#add-armour");
 const armourContainer = document.querySelector(".added-armour");
+const armourDisplay = document.querySelector("#display-armour");
 const addItem = document.querySelector("#item-add");
+const itemAdd = document.querySelector("#add-items");
 const itemContainer = document.querySelector(".added-items");
+const itemDisplay = document.querySelector("#display-items");
 const dieNumber = document.querySelector("#die-number");
 const dieType = document.querySelector("#die-type");
 const dieTypeTitle = document.querySelector("#dice-type");
@@ -130,6 +138,14 @@ const newCharacterBtn = document.querySelector("#new-character");
 const saveBtn = document.querySelector("#save");
 const loadBtn = document.querySelector("#load");
 const loadInput = document.querySelector("#load-input");
+const inventoryExit = document.getElementById("inventory-exit");
+const inventoryLabel = document.getElementById("inventory-label");
+const currentWeight = document.getElementById("current-weight");
+const remainingWeight = document.getElementById("remaining-weight");
+const backstoryText = document.getElementById("backstory-text");
+const backstoryExit = document.getElementById("backstory-exit");
+const backstoryClearBtn = document.getElementById("backstory-clear");
+const backstoryConfirmBtn = document.getElementById("backstory-confirm");
 
 //const dieImages = document.querySelector("#dice-images");
 
@@ -163,6 +179,8 @@ let roller = {
 };
 
 let currentEquipmentType = "";
+let totalWeight = 0;
+let isEncumbered = false;
 
 //Preload D20 Images
 const d20Faces = [];
@@ -253,6 +271,7 @@ const weapons = [
     damage: "1d4",
     damageType: "bludgeoning",
     properties: ["light"],
+    weight: 2,
   },
   {
     value: "dagger",
@@ -262,6 +281,7 @@ const weapons = [
     damage: "1d4",
     damageType: "piercing",
     properties: ["finesse", "light", "thrown"],
+    weight: 1,
   },
   {
     value: "greatclub",
@@ -271,6 +291,7 @@ const weapons = [
     damage: "1d8",
     damageType: "bludgeoning",
     properties: ["two-handed"],
+    weight: 10,
   },
   {
     value: "handaxe",
@@ -280,6 +301,7 @@ const weapons = [
     damage: "1d6",
     damageType: "slashing",
     properties: ["light", "thrown"],
+    weight: 2,
   },
   {
     value: "javelin",
@@ -289,6 +311,17 @@ const weapons = [
     damage: "1d6",
     damageType: "piercing",
     properties: ["thrown"],
+    weight: 2,
+  },
+  {
+    value: "lightHammer",
+    name: "Light Hammer",
+    category: "simple",
+    type: "melee",
+    damage: "1d4",
+    damageType: "bludgeoning",
+    properties: ["light", "thrown"],
+    weight: 2,
   },
   {
     value: "mace",
@@ -298,6 +331,7 @@ const weapons = [
     damage: "1d6",
     damageType: "bludgeoning",
     properties: [],
+    weight: 4,
   },
   {
     value: "quarterstaff",
@@ -307,6 +341,7 @@ const weapons = [
     damage: "1d6",
     damageType: "bludgeoning",
     properties: ["versatile"],
+    weight: 4,
   },
   {
     value: "sickle",
@@ -316,6 +351,7 @@ const weapons = [
     damage: "1d4",
     damageType: "slashing",
     properties: ["light"],
+    weight: 4,
   },
   {
     value: "spear",
@@ -325,17 +361,19 @@ const weapons = [
     damage: "1d6",
     damageType: "piercing",
     properties: ["thrown", "versatile"],
+    weight: 3,
   },
 
   // ───── SIMPLE RANGED ─────
   {
-    value: "light_crossbow",
+    value: "lightCrossbow",
     name: "Light Crossbow",
     category: "simple",
     type: "ranged",
     damage: "1d8",
     damageType: "piercing",
     properties: ["ammunition", "loading", "two-handed"],
+    weight: 5,
   },
   {
     value: "dart",
@@ -345,6 +383,7 @@ const weapons = [
     damage: "1d4",
     damageType: "piercing",
     properties: ["finesse", "thrown"],
+    weight: 0.25,
   },
   {
     value: "shortbow",
@@ -354,6 +393,7 @@ const weapons = [
     damage: "1d6",
     damageType: "piercing",
     properties: ["ammunition", "two-handed"],
+    weight: 2,
   },
   {
     value: "sling",
@@ -363,6 +403,7 @@ const weapons = [
     damage: "1d4",
     damageType: "bludgeoning",
     properties: ["ammunition"],
+    weight: 0,
   },
 
   // ───── MARTIAL MELEE ─────
@@ -374,6 +415,7 @@ const weapons = [
     damage: "1d8",
     damageType: "slashing",
     properties: ["versatile"],
+    weight: 4,
   },
   {
     value: "flail",
@@ -383,6 +425,7 @@ const weapons = [
     damage: "1d8",
     damageType: "bludgeoning",
     properties: [],
+    weight: 2,
   },
   {
     value: "glaive",
@@ -392,6 +435,7 @@ const weapons = [
     damage: "1d10",
     damageType: "slashing",
     properties: ["heavy", "reach", "two-handed"],
+    weight: 6,
   },
   {
     value: "greataxe",
@@ -401,6 +445,7 @@ const weapons = [
     damage: "1d12",
     damageType: "slashing",
     properties: ["heavy", "two-handed"],
+    weight: 7,
   },
   {
     value: "greatsword",
@@ -410,6 +455,27 @@ const weapons = [
     damage: "2d6",
     damageType: "slashing",
     properties: ["heavy", "two-handed"],
+    weight: 6,
+  },
+  {
+    value: "halberd",
+    name: "Halberd",
+    category: "martial",
+    type: "melee",
+    damage: "1d10",
+    damageType: "slashing",
+    properties: ["heavy", "reach", "two-handed"],
+    weight: 6,
+  },
+  {
+    value: "lance",
+    name: "Lance",
+    category: "martial",
+    type: "melee",
+    damage: "1d12",
+    damageType: "piercing",
+    properties: ["reach", "special"],
+    weight: 6,
   },
   {
     value: "longsword",
@@ -419,6 +485,37 @@ const weapons = [
     damage: "1d8",
     damageType: "slashing",
     properties: ["versatile"],
+    weight: 3,
+  },
+  {
+    value: "maul",
+    name: "Maul",
+    category: "martial",
+    type: "melee",
+    damage: "2d6",
+    damageType: "bludgeoning",
+    properties: ["heavy", "two-handed"],
+    weight: 10,
+  },
+  {
+    value: "morningstar",
+    name: "Morningstar",
+    category: "martial",
+    type: "melee",
+    damage: "1d8",
+    damageType: "piercing",
+    properties: [],
+    weight: 4,
+  },
+  {
+    value: "pike",
+    name: "Pike",
+    category: "martial",
+    type: "melee",
+    damage: "1d10",
+    damageType: "piercing",
+    properties: ["heavy", "reach", "two-handed"],
+    weight: 18,
   },
   {
     value: "rapier",
@@ -428,6 +525,7 @@ const weapons = [
     damage: "1d8",
     damageType: "piercing",
     properties: ["finesse"],
+    weight: 2,
   },
   {
     value: "scimitar",
@@ -437,26 +535,89 @@ const weapons = [
     damage: "1d6",
     damageType: "slashing",
     properties: ["finesse", "light"],
+    weight: 3,
+  },
+  {
+    value: "shortsword",
+    name: "Shortsword",
+    category: "martial",
+    type: "melee",
+    damage: "1d6",
+    damageType: "piercing",
+    properties: ["finesse", "light"],
+    weight: 2,
+  },
+  {
+    value: "trident",
+    name: "Trident",
+    category: "martial",
+    type: "melee",
+    damage: "1d6",
+    damageType: "piercing",
+    properties: ["thrown", "versatile"],
+    weight: 4,
+  },
+  {
+    value: "warPick",
+    name: "War Pick",
+    category: "martial",
+    type: "melee",
+    damage: "1d8",
+    damageType: "piercing",
+    properties: [],
+    weight: 2,
+  },
+  {
+    value: "warhammer",
+    name: "Warhammer",
+    category: "martial",
+    type: "melee",
+    damage: "1d8",
+    damageType: "bludgeoning",
+    properties: ["versatile"],
+    weight: 2,
+  },
+  {
+    value: "whip",
+    name: "Whip",
+    category: "martial",
+    type: "melee",
+    damage: "1d4",
+    damageType: "slashing",
+    properties: ["finesse", "reach"],
+    weight: 3,
   },
 
   // ───── MARTIAL RANGED ─────
   {
-    value: "hand_crossbow",
+    value: "blowgun",
+    name: "Blowgun",
+    category: "martial",
+    type: "ranged",
+    damage: "1d1",
+    damageType: "piercing",
+    properties: ["ammunition", "loading"],
+    weight: 1,
+  },
+  {
+    value: "handCrossbow",
     name: "Hand Crossbow",
     category: "martial",
     type: "ranged",
     damage: "1d6",
     damageType: "piercing",
     properties: ["ammunition", "light", "loading"],
+    weight: 3,
   },
   {
-    value: "heavy_crossbow",
+    value: "heavyCrossbow",
     name: "Heavy Crossbow",
     category: "martial",
     type: "ranged",
     damage: "1d10",
     damageType: "piercing",
     properties: ["ammunition", "heavy", "loading", "two-handed"],
+    weight: 18,
   },
   {
     value: "longbow",
@@ -466,6 +627,17 @@ const weapons = [
     damage: "1d8",
     damageType: "piercing",
     properties: ["ammunition", "heavy", "two-handed"],
+    weight: 2,
+  },
+  {
+    value: "net",
+    name: "Net",
+    category: "martial",
+    type: "ranged",
+    damage: "1d0",
+    damageType: "none",
+    properties: ["special", "thrown"],
+    weight: 3,
   },
 ];
 
@@ -480,6 +652,7 @@ const armors = [
     maxDex: null,
     stealthDisadvantage: true,
     properties: [],
+    weight: 8,
   },
   {
     value: "leather",
@@ -490,9 +663,10 @@ const armors = [
     maxDex: null,
     stealthDisadvantage: false,
     properties: [],
+    weight: 10,
   },
   {
-    value: "studded_leather",
+    value: "studdedLeather",
     name: "Studded Leather",
     category: "light",
     baseAC: 12,
@@ -500,6 +674,7 @@ const armors = [
     maxDex: null,
     stealthDisadvantage: false,
     properties: [],
+    weight: 13,
   },
 
   // ───── MEDIUM ARMOR ─────
@@ -512,9 +687,10 @@ const armors = [
     maxDex: 2,
     stealthDisadvantage: false,
     properties: [],
+    weight: 12,
   },
   {
-    value: "chain_shirt",
+    value: "chainShirt",
     name: "Chain Shirt",
     category: "medium",
     baseAC: 13,
@@ -522,9 +698,10 @@ const armors = [
     maxDex: 2,
     stealthDisadvantage: false,
     properties: [],
+    weight: 20,
   },
   {
-    value: "scale_mail",
+    value: "scaleMail",
     name: "Scale Mail",
     category: "medium",
     baseAC: 14,
@@ -532,6 +709,7 @@ const armors = [
     maxDex: 2,
     stealthDisadvantage: true,
     properties: [],
+    weight: 45,
   },
   {
     value: "breastplate",
@@ -542,9 +720,10 @@ const armors = [
     maxDex: 2,
     stealthDisadvantage: false,
     properties: [],
+    weight: 20,
   },
   {
-    value: "half_plate",
+    value: "halfPlate",
     name: "Half Plate",
     category: "medium",
     baseAC: 15,
@@ -552,11 +731,12 @@ const armors = [
     maxDex: 2,
     stealthDisadvantage: true,
     properties: [],
+    weight: 40,
   },
 
   // ───── HEAVY ARMOR ─────
   {
-    value: "ring_mail",
+    value: "ringMail",
     name: "Ring Mail",
     category: "heavy",
     baseAC: 14,
@@ -564,9 +744,10 @@ const armors = [
     maxDex: 0,
     stealthDisadvantage: true,
     properties: [],
+    weight: 40,
   },
   {
-    value: "chain_mail",
+    value: "chainMail",
     name: "Chain Mail",
     category: "heavy",
     baseAC: 16,
@@ -575,6 +756,7 @@ const armors = [
     stealthDisadvantage: true,
     strengthRequirement: 13,
     properties: [],
+    weight: 55,
   },
   {
     value: "splint",
@@ -586,6 +768,7 @@ const armors = [
     stealthDisadvantage: true,
     strengthRequirement: 15,
     properties: [],
+    weight: 60,
   },
   {
     value: "plate",
@@ -597,6 +780,7 @@ const armors = [
     stealthDisadvantage: true,
     strengthRequirement: 15,
     properties: [],
+    weight: 65,
   },
 
   // ───── SHIELDS ─────
@@ -609,6 +793,7 @@ const armors = [
     maxDex: null,
     stealthDisadvantage: false,
     properties: ["requires-hand"],
+    weight: 6,
   },
 ];
 
@@ -777,6 +962,35 @@ newCharacterBtn.addEventListener("click", () => {
 equipmentBtn.addEventListener("click", () => {
   sheet.style.display = "none";
   equipmentPage.style.display = "block";
+  inventoryLabel.textContent = `(Maximum Weight = ${+strength.value * 15} lbs)`;
+  currentWeight.textContent = `Current Carrying Weight = ${totalWeight} lbs`;
+  remainingWeight.textContent = `Remaining Carrying Weight = ${+strength.value * 15 - totalWeight} lbs`;
+});
+
+//Backstory Page
+backstoryBtn.addEventListener("click", () => {
+  sheet.style.display = "none";
+  backstoryPage.style.display = "block";
+  backstoryText.value = backstoryText.value;
+});
+
+backstoryClearBtn.addEventListener("click", () => {
+  backstoryText.value = "";
+  if (backstoryConfirmBtn.disabled) {
+    backstoryConfirmBtn.disabled = false;
+    backstoryPreview.style.display = "none";
+    backstoryText.style.display = "block";
+  }
+});
+
+backstoryConfirmBtn.addEventListener("click", () => {
+  if (backstoryText.value === "") {
+    return;
+  }
+  backstoryPreview.style.display = "block";
+  backstoryPreview.innerHTML = marked.parse(backstoryText.value); //markdown parsing
+  backstoryText.style.display = "none";
+  backstoryConfirmBtn.disabled = true;
 });
 
 //Language Choice
@@ -792,7 +1006,7 @@ languageSelect.addEventListener("change", () => {
 
   // Check if weapon already exists in the container
   const alreadyAdded = Array.from(languageContainer.children).some(
-    (child) => child.dataset.language === value
+    (child) => child.dataset.language === value,
   );
 
   if (!alreadyAdded) {
@@ -1065,14 +1279,18 @@ function populateSelect(selectElement, optionsArray) {
   //Ignores case differences
   //Handles accented characters correctly
   optionsArray.sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
   );
 
   // Add options dynamically
   optionsArray.forEach((option) => {
     const opt = document.createElement("option");
     opt.value = option.value;
-    opt.textContent = option.name;
+    if (option.weight !== undefined) {
+      opt.textContent = `${option.name} (${option.weight} lbs)`;
+    } else {
+      opt.textContent = option.name;
+    }
     selectElement.appendChild(opt);
   });
 }
@@ -1146,7 +1364,7 @@ function getProficiencyBonus(level) {
 function rollStat() {
   const rolls = Array.from(
     { length: 4 },
-    () => Math.floor(Math.random() * 6) + 1
+    () => Math.floor(Math.random() * 6) + 1,
   );
   rolls.sort((a, b) => a - b);
   return rolls.slice(1).reduce((a, b) => a + b, 0);
@@ -1180,7 +1398,7 @@ document.querySelectorAll(".stat-control").forEach((control) => {
     value = value.replace(/[^0-9]/g, "");
 
     if (value === "") {
-      input.value = "";
+      input.value = 1;
       return;
     }
 
@@ -1646,7 +1864,7 @@ initiative.addEventListener("click", () => {
       getSavingThrowModifier(
         savingThrowTitle.textContent,
         finalIndex,
-        modifiers
+        modifiers,
       );
     }, 1000);
     savingThrow.classList.remove("hidden");
@@ -2447,7 +2665,7 @@ document.querySelectorAll(".money").forEach((control) => {
     description.style.textAlign = "center";
     description.textContent = `${convertPouch(
       total,
-      currency
+      currency,
     )} ${currency.toUpperCase()}`;
     title.textContent = `Total ${label.textContent}`;
     modal.classList.remove("hidden");
@@ -2606,8 +2824,17 @@ function updateCharacterSheetUI() {
 //Equipment
 
 //Armour Choice
-addArmour.addEventListener("click", (e) => {
-  if (e.target.id === "armour-add") {
+// addArmour.addEventListener("click", (e) => {
+//   if (e.target.id === "armour-add") {
+//     populateSelect(equipmentSelect, armors);
+//   }
+//   equipmentTitle.textContent = "Armours Dialog";
+//   equipment.classList.remove("hidden");
+//   currentEquipmentType = e.target.id;
+// });
+
+armourAdd.addEventListener("click", (e) => {
+  if (e.target.id === "add-armour") {
     populateSelect(equipmentSelect, armors);
   }
   equipmentTitle.textContent = "Armours Dialog";
@@ -2690,8 +2917,17 @@ function calculateArmorClass(character) {
 }
 
 //Weapon Choice
-addWeapon.addEventListener("click", (e) => {
-  if (e.target.id === "weapon-add") {
+// addWeapon.addEventListener("click", (e) => {
+//   if (e.target.id === "weapon-add") {
+//     populateSelect(equipmentSelect, weapons);
+//   }
+//   equipmentTitle.textContent = "Weapons Dialog";
+//   equipment.classList.remove("hidden");
+//   currentEquipmentType = e.target.id;
+// });
+
+weaponAdd.addEventListener("click", (e) => {
+  if (e.target.id === "add-weapons") {
     populateSelect(equipmentSelect, weapons);
   }
   equipmentTitle.textContent = "Weapons Dialog";
@@ -2700,130 +2936,954 @@ addWeapon.addEventListener("click", (e) => {
 });
 
 //Selecting equipment => weapon, item, armour
+// equipmentSelect.addEventListener("change", () => {
+//   const value = equipmentSelect.value;
+//   let weaponQuantity = 1;
+//   if (!value) return;
+
+//   //if (currentEquipmentType == "weapon-add")
+//   if (currentEquipmentType == "add-weapons") {
+//     // Check if weapon already exists in the container
+//     // const alreadyAdded = Array.from(weaponContainer.children).some(
+//     //   (child) => child.dataset.weapon === value
+//     // );
+//     const alreadyAdded = Array.from(weaponDisplay.children).some(
+//       (child) => child.dataset.weapon === value
+//     );
+
+//     if (!alreadyAdded) {
+//       // Find the selected weapon from the array
+//       const chosenWeapon = weapons.find((w) => w.value === value);
+//       if (!chosenWeapon) return;
+
+//       const weaponWeight = Number(chosenWeapon.weight);
+
+//       if (!canCarry(weaponWeight)) {
+//         title.textContent = "ENCUMBERED";
+//         description.textContent = "You cannot carry this weapon.";
+//         isEncumbered = true;
+//         modal.classList.remove("hidden");
+//         return;
+//       }
+
+//       totalWeight += weaponWeight;
+
+//       // Update the title and description
+//       title.textContent = `${chosenWeapon.name} (${chosenWeapon.weight} lbs)`;
+//       description.textContent = chosenWeapon.description;
+
+//       // Create the new div
+//       const weaponDiv = document.createElement("div");
+//       weaponDiv.style.display = "flex";
+//       weaponDiv.style.gap = "10px";
+//       weaponDiv.style.alignItems = "center";
+
+//       const quantityWeaponDiv = document.createElement("div");
+//       quantityWeaponDiv.style.display = "flex";
+//       quantityWeaponDiv.style.alignItems = "center";
+
+//       const incrementWeaponQty = document.createElement("button");
+//       incrementWeaponQty.textContent = "+";
+//       incrementWeaponQty.style.height = "30px";
+//       incrementWeaponQty.style.display = "flex";
+//       incrementWeaponQty.style.justifyContent = "center";
+//       incrementWeaponQty.style.alignItems = "center";
+//       incrementWeaponQty.style.fontSize = "2rem";
+//       incrementWeaponQty.style.borderRadius = "50%";
+//       incrementWeaponQty.style.cursor = "pointer";
+//       incrementWeaponQty.style.backgroundColor = "greenyellow";
+//       quantityWeaponDiv.appendChild(incrementWeaponQty);
+
+//       const weaponQty = document.createElement("input");
+//       weaponQty.style.width = "50px";
+//       weaponQty.style.textAlign = "center";
+//       weaponQty.value = weaponQuantity;
+//       quantityWeaponDiv.appendChild(weaponQty);
+
+//       incrementWeaponQty.addEventListener(
+//         "click",
+//         () => {
+//           const currentQty = Number(weaponQty.value);
+//           const nextQty = currentQty + 1;
+//           const addedWeight = Number(chosenWeapon.weight);
+
+//           const maxCarry = Number(strength.value) * 15;
+//           const projectedWeight = totalWeight + addedWeight;
+
+//           if (projectedWeight > maxCarry) {
+//             title.textContent = "ENCUMBERED";
+//             description.textContent = "You cannot carry any more weight.";
+//             isEncumbered = true;
+//             modal.classList.remove("hidden");
+//             return;
+//           }
+
+//           weaponQty.value = nextQty;
+//           totalWeight = projectedWeight;
+//         }
+//       );
+
+//       const decrementWeaponQty = document.createElement("button");
+//       decrementWeaponQty.textContent = "-";
+//       decrementWeaponQty.style.height = "30px";
+//       decrementWeaponQty.style.display = "flex";
+//       decrementWeaponQty.style.justifyContent = "center";
+//       decrementWeaponQty.style.alignItems = "center";
+//       decrementWeaponQty.style.fontSize = "2rem";
+//       decrementWeaponQty.style.borderRadius = "50%";
+//       decrementWeaponQty.style.cursor = "pointer";
+//       decrementWeaponQty.style.backgroundColor = "red";
+//       quantityWeaponDiv.appendChild(decrementWeaponQty);
+
+//       decrementWeaponQty.addEventListener(
+//         "click",
+//         () => {
+//           const currentQty = Number(weaponQty.value);
+//           if (currentQty <= 1) return;
+
+//           weaponQty.value = currentQty - 1;
+//           totalWeight -= Number(chosenWeapon.weight);
+//         }
+//       );
+
+//       weaponDiv.appendChild(quantityWeaponDiv);
+
+//       const addedWeapon = document.createElement("div");
+//       //addedWeapon.dataset.weapon = chosenWeapon.value; // store value for duplicate check
+//       weaponDiv.dataset.weapon = chosenWeapon.value;
+//       addedWeapon.innerHTML = `<b>${chosenWeapon.name}</b>`;
+//       addedWeapon.style.backgroundColor = "aliceblue";
+//       addedWeapon.style.border = "2px solid black";
+//       addedWeapon.style.borderRadius = "10%";
+//       addedWeapon.style.cursor = "pointer";
+
+//       weaponDiv.appendChild(addedWeapon);
+
+//       // Add right-click removal
+//       addedWeapon.addEventListener("contextmenu", (e) => {
+//         e.preventDefault();
+//         //weaponContainer.removeChild(addedWeapon);
+//         weaponDisplay.removeChild(weaponDiv);
+//       });
+
+//       // Append to container
+//       //weaponContainer.appendChild(addedWeapon);
+//       weaponDisplay.appendChild(weaponDiv);
+//     } else {
+//       title.textContent = "WARNING";
+//       description.textContent = "Weapon already added!";
+//     }
+//   } //else if (currentEquipmentType == "armour-add")
+//   else if (currentEquipmentType == "add-armour") {
+//     // Check if weapon already exists in the container
+//     // const alreadyAdded = Array.from(armourContainer.children).some(
+//     //   (child) => child.dataset.armour === value
+//     // );
+//     const alreadyAdded = Array.from(armourDisplay.children).some(
+//       (child) => child.dataset.armour === value
+//     );
+
+//     if (!alreadyAdded) {
+//       // Find the selected weapon from the array
+//       const chosenArmour = armors.find((w) => w.value === value);
+//       if (!chosenArmour) return;
+
+//       // Update the title and description
+//       title.textContent = `${chosenArmour.name} (${chosenArmour.weight} lbs)`;
+//       description.textContent = chosenArmour.description;
+//       const armourWeight = Number(chosenArmour.weight);
+
+//       if (!canCarry(armourWeight)) {
+//         title.textContent = "ENCUMBERED";
+//         description.textContent = "You cannot carry this armour.";
+//         modal.classList.remove("hidden");
+//         return;
+//       }
+
+//       applyWeight(armourWeight);
+
+//       // Create the new div
+//       const addedArmour = document.createElement("div");
+//       addedArmour.dataset.armour = chosenArmour.value; // store value for duplicate check
+//       addedArmour.innerHTML = `<b>${chosenArmour.name}</b>`;
+//       addedArmour.style.backgroundColor = "aliceblue";
+//       addedArmour.style.border = "2px solid black";
+//       addedArmour.style.borderRadius = "10%";
+//       addedArmour.style.cursor = "pointer";
+
+//       // Add right-click removal
+//       addedArmour.addEventListener("contextmenu", (e) => {
+//         e.preventDefault();
+//         //armourContainer.removeChild(addedArmour);
+//         armourDisplay.removeChild(addedArmour);
+//       });
+
+//       // Append to container
+//       //armourContainer.appendChild(addedArmour);
+//       armourDisplay.appendChild(addedArmour);
+//     } else {
+//       title.textContent = "WARNING";
+//       description.textContent = "Armour already added!";
+//     }
+//   } //else if (currentEquipmentType == "item-add")
+//   else if (currentEquipmentType == "add-items") {
+//     // Check if weapon already exists in the container
+//     // const alreadyAdded = Array.from(itemContainer.children).some(
+//     //   (child) => child.dataset.item === value
+//     // );
+//     const alreadyAdded = Array.from(itemDisplay.children).some(
+//       (child) => child.dataset.item === value
+//     );
+
+//     if (!alreadyAdded) {
+//       // Find the selected weapon from the array
+//       const chosenItem = items.find((w) => w.value === value);
+//       if (!chosenItem) return;
+
+//       // Update the title and description
+//       title.textContent = `${chosenItem.name} (${chosenItem.weight} lbs)`;
+//       description.textContent = chosenItem.description;
+//       const itemWeight = Number(chosenItem.weight);
+
+//       if (!canCarry(itemWeight)) {
+//         title.textContent = "ENCUMBERED";
+//         description.textContent = "You cannot carry this item.";
+//         modal.classList.remove("hidden");
+//         return;
+//       }
+
+//       applyWeight(itemWeight);
+
+//       // Create the new div
+//       const addedItem = document.createElement("div");
+//       addedItem.dataset.item = chosenItem.value; // store value for duplicate check
+//       addedItem.innerHTML = `<b>${chosenItem.name}</b>`;
+//       addedItem.style.backgroundColor = "aliceblue";
+//       addedItem.style.border = "2px solid black";
+//       addedItem.style.borderRadius = "10%";
+//       addedItem.style.cursor = "pointer";
+
+//       // Add right-click removal
+//       addedItem.addEventListener("contextmenu", (e) => {
+//         e.preventDefault();
+//         //itemContainer.removeChild(addedItem);
+//         itemDisplay.removeChild(addedItem);
+//       });
+
+//       // Append to container
+//       //itemContainer.appendChild(addedItem);
+//       itemDisplay.appendChild(addedItem);
+//     } else {
+//       title.textContent = "WARNING";
+//       description.textContent = "Item already added!";
+//     }
+//   }
+
+//   equipment.classList.add("hidden");
+//   modal.classList.remove("hidden");
+// });
+
+// Selecting equipment => weapon, item, armour
+// equipmentSelect.addEventListener("change", () => {
+//   const value = equipmentSelect.value;
+//   if (!value) return;
+
+//   /* ===================== WEAPONS ===================== */
+//   if (currentEquipmentType === "add-weapons") {
+//     const alreadyAdded = Array.from(weaponDisplay.children).some(
+//       (child) => child.dataset.weapon === value,
+//     );
+
+//     if (alreadyAdded) {
+//       title.textContent = "WARNING";
+//       description.textContent = "Weapon already added!";
+//       modal.classList.remove("hidden");
+//       equipment.classList.add("hidden");
+//       return;
+//     }
+
+//     const chosenWeapon = weapons.find((w) => w.value === value);
+//     if (!chosenWeapon) return;
+
+//     const weaponWeight = Number(chosenWeapon.weight);
+
+//     // Encumbrance check BEFORE adding
+//     if (!canCarry(weaponWeight)) {
+//       title.textContent = "ENCUMBERED";
+//       description.textContent = "You cannot carry this weapon.";
+//       modal.classList.remove("hidden");
+//       return;
+//     }
+
+//     applyWeight(weaponWeight);
+
+//     title.textContent = `${chosenWeapon.name} (${weaponWeight} lbs)`;
+//     description.textContent = chosenWeapon.description;
+
+//     const weaponDiv = document.createElement("div");
+//     weaponDiv.dataset.weapon = chosenWeapon.value;
+//     weaponDiv.style.display = "flex";
+//     weaponDiv.style.gap = "10px";
+//     weaponDiv.style.alignItems = "center";
+
+//     /* Quantity Controls */
+//     const quantityWeaponDiv = document.createElement("div");
+//     quantityWeaponDiv.style.display = "flex";
+//     quantityWeaponDiv.style.alignItems = "center";
+
+//     let lastValidQty = 1;
+
+//     const weaponQty = document.createElement("input");
+//     weaponQty.type = "number";
+//     weaponQty.min = 1;
+//     weaponQty.step = 1;
+//     weaponQty.value = 1;
+//     weaponQty.style.width = "40px";
+//     weaponQty.style.height = "30px";
+//     weaponQty.style.textAlign = "center";
+
+//     weaponQty.addEventListener("change", () => {
+//       let newQty = Number(weaponQty.value);
+
+//       // Invalid input protection
+//       if (!Number.isInteger(newQty) || newQty < 1) {
+//         weaponQty.value = lastValidQty;
+//         return;
+//       }
+
+//       const deltaQty = newQty - lastValidQty;
+//       const deltaWeight = deltaQty * Number(chosenWeapon.weight);
+
+//       // If increasing quantity, check encumbrance
+//       if (deltaWeight > 0 && !canCarry(deltaWeight)) {
+//         title.textContent = "ENCUMBERED";
+//         description.textContent = "You cannot carry that many.";
+//         modal.classList.remove("hidden");
+//         weaponQty.value = lastValidQty;
+//         return;
+//       }
+
+//       // Apply change
+//       if (deltaWeight > 0) {
+//         applyWeight(deltaWeight);
+//       } else if (deltaWeight < 0) {
+//         refundWeight(Math.abs(deltaWeight));
+//       }
+
+//       lastValidQty = newQty;
+//     });
+
+//     const incrementWeaponQty = document.createElement("button");
+//     incrementWeaponQty.textContent = "+";
+//     incrementWeaponQty.style.cursor = "pointer";
+//     incrementWeaponQty.style.borderRadius = "50%";
+//     incrementWeaponQty.style.backgroundColor = "greenyellow";
+
+//     const decrementWeaponQty = document.createElement("button");
+//     decrementWeaponQty.textContent = "-";
+//     decrementWeaponQty.style.cursor = "pointer";
+//     decrementWeaponQty.style.borderRadius = "50%";
+//     decrementWeaponQty.style.backgroundColor = "red";
+
+//     incrementWeaponQty.addEventListener("click", () => {
+//       const projectedWeight = Number(chosenWeapon.weight);
+
+//       if (!canCarry(projectedWeight)) {
+//         title.textContent = "ENCUMBERED";
+//         description.textContent = "You cannot carry any more weight.";
+//         modal.classList.remove("hidden");
+//         return;
+//       }
+
+//       lastValidQty++;
+//       weaponQty.value = lastValidQty;
+//       applyWeight(projectedWeight);
+//     });
+
+//     decrementWeaponQty.addEventListener("click", () => {
+//       if (lastValidQty <= 1) return;
+//       lastValidQty--;
+//       weaponQty.value = lastValidQty;
+//       refundWeight(chosenWeapon.weight);
+//     });
+
+//     quantityWeaponDiv.append(incrementWeaponQty, weaponQty, decrementWeaponQty);
+
+//     const addedWeapon = document.createElement("div");
+//     addedWeapon.innerHTML = `<b>${chosenWeapon.name}</b>`;
+//     addedWeapon.style.cursor = "pointer";
+//     addedWeapon.style.fontWeight = "normal";
+//     addedWeapon.style.fontSize = "x-large";
+
+//     addedWeapon.addEventListener("contextmenu", (e) => {
+//       e.preventDefault();
+//       const qty = Number(weaponQty.value);
+//       refundWeight(qty * weaponWeight);
+//       weaponDisplay.removeChild(weaponDiv);
+//     });
+
+//     weaponDiv.append(quantityWeaponDiv, addedWeapon);
+//     weaponDisplay.appendChild(weaponDiv);
+
+//     /* ===================== ARMOUR ===================== */
+//   } else if (currentEquipmentType === "add-armour") {
+//     const alreadyAdded = Array.from(armourDisplay.children).some(
+//       (child) => child.dataset.armour === value,
+//     );
+
+//     if (alreadyAdded) {
+//       title.textContent = "WARNING";
+//       description.textContent = "Armour already added!";
+//       modal.classList.remove("hidden");
+//       return;
+//     }
+
+//     const chosenArmour = armors.find((a) => a.value === value);
+//     if (!chosenArmour) return;
+
+//     const armourWeight = Number(chosenArmour.weight);
+
+//     if (!canCarry(armourWeight)) {
+//       title.textContent = "ENCUMBERED";
+//       description.textContent = "You cannot carry this armour.";
+//       modal.classList.remove("hidden");
+//       return;
+//     }
+
+//     applyWeight(armourWeight);
+
+//     title.textContent = `${chosenArmour.name} (${armourWeight} lbs)`;
+//     description.textContent = chosenArmour.description;
+
+//     const addedArmour = document.createElement("div");
+//     addedArmour.dataset.armour = chosenArmour.value;
+//     addedArmour.innerHTML = `<b>${chosenArmour.name}</b>`;
+//     addedArmour.style.cursor = "pointer";
+
+//     addedArmour.addEventListener("contextmenu", (e) => {
+//       e.preventDefault();
+//       refundWeight(armourWeight);
+//       armourDisplay.removeChild(addedArmour);
+//     });
+
+//     armourDisplay.appendChild(addedArmour);
+
+//     /* ===================== ITEMS ===================== */
+//   } else if (currentEquipmentType === "add-items") {
+//     const alreadyAdded = Array.from(itemDisplay.children).some(
+//       (child) => child.dataset.item === value,
+//     );
+
+//     if (alreadyAdded) {
+//       title.textContent = "WARNING";
+//       description.textContent = "Item already added!";
+//       modal.classList.remove("hidden");
+//       return;
+//     }
+
+//     const chosenItem = items.find((i) => i.value === value);
+//     if (!chosenItem) return;
+
+//     const itemWeight = Number(chosenItem.weight);
+
+//     if (!canCarry(itemWeight)) {
+//       title.textContent = "ENCUMBERED";
+//       description.textContent = "You cannot carry this item.";
+//       modal.classList.remove("hidden");
+//       return;
+//     }
+
+//     applyWeight(itemWeight);
+
+//     title.textContent = `${chosenItem.name} (${itemWeight} lbs)`;
+//     description.textContent = chosenItem.description;
+
+//     const addedItem = document.createElement("div");
+//     addedItem.dataset.item = chosenItem.value;
+//     addedItem.innerHTML = `<b>${chosenItem.name}</b>`;
+//     addedItem.style.cursor = "pointer";
+
+//     addedItem.addEventListener("contextmenu", (e) => {
+//       e.preventDefault();
+//       refundWeight(itemWeight);
+//       itemDisplay.removeChild(addedItem);
+//     });
+
+//     itemDisplay.appendChild(addedItem);
+//   }
+
+//   equipment.classList.add("hidden");
+//   modal.classList.remove("hidden");
+// });
+
+// Selecting equipment => weapon, item, armour
 equipmentSelect.addEventListener("change", () => {
   const value = equipmentSelect.value;
   if (!value) return;
 
-  if (currentEquipmentType == "weapon-add") {
-    // Check if weapon already exists in the container
-    const alreadyAdded = Array.from(weaponContainer.children).some(
-      (child) => child.dataset.weapon === value
+  /* ===================== WEAPONS ===================== */
+  if (currentEquipmentType === "add-weapons") {
+    const alreadyAdded = Array.from(weaponDisplay.children).some(
+      (child) => child.dataset.weapon === value,
     );
 
-    if (!alreadyAdded) {
-      // Find the selected weapon from the array
-      const chosenWeapon = weapons.find((w) => w.value === value);
-      if (!chosenWeapon) return;
-
-      // Update the title and description
-      title.textContent = chosenWeapon.name;
-      description.textContent = chosenWeapon.description;
-
-      // Create the new div
-      const addedWeapon = document.createElement("div");
-      addedWeapon.dataset.weapon = chosenWeapon.value; // store value for duplicate check
-      addedWeapon.innerHTML = `<b>${chosenWeapon.name}</b>`;
-      addedWeapon.style.backgroundColor = "aliceblue";
-      addedWeapon.style.border = "2px solid black";
-      addedWeapon.style.borderRadius = "10%";
-      addedWeapon.style.cursor = "pointer";
-
-      // Add right-click removal
-      addedWeapon.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        weaponContainer.removeChild(addedWeapon);
-      });
-
-      // Append to container
-      weaponContainer.appendChild(addedWeapon);
-    } else {
+    if (alreadyAdded) {
       title.textContent = "WARNING";
       description.textContent = "Weapon already added!";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
     }
-  } else if (currentEquipmentType == "armour-add") {
-    // Check if weapon already exists in the container
-    const alreadyAdded = Array.from(armourContainer.children).some(
-      (child) => child.dataset.armour === value
+
+    const chosenWeapon = weapons.find((w) => w.value === value);
+    if (!chosenWeapon) return;
+
+    const weaponWeight = Number(chosenWeapon.weight);
+
+    // Encumbrance check BEFORE adding
+    if (!canCarry(weaponWeight)) {
+      title.textContent = "ENCUMBERED";
+      description.textContent = "You cannot carry this weapon.";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
+    }
+
+    applyWeight(weaponWeight);
+
+    title.textContent = `${chosenWeapon.name} (${weaponWeight} lbs)`;
+    description.textContent = chosenWeapon.description;
+
+    const weaponDiv = document.createElement("div");
+    weaponDiv.dataset.weapon = chosenWeapon.value;
+    weaponDiv.style.display = "flex";
+    weaponDiv.style.gap = "10px";
+    weaponDiv.style.alignItems = "center";
+
+    /* Quantity Controls */
+    const quantityWeaponDiv = document.createElement("div");
+    quantityWeaponDiv.style.display = "flex";
+    quantityWeaponDiv.style.alignItems = "center";
+
+    let lastValidQty = 1;
+
+    const weaponQty = document.createElement("input");
+    weaponQty.type = "number";
+    weaponQty.min = 1;
+    weaponQty.step = 1;
+    weaponQty.value = 1;
+    weaponQty.style.width = "40px";
+    weaponQty.style.height = "30px";
+    weaponQty.style.textAlign = "center";
+
+    weaponQty.addEventListener("change", () => {
+      let newQty = Number(weaponQty.value);
+
+      // Invalid input protection
+      if (!Number.isInteger(newQty) || newQty < 1) {
+        weaponQty.value = lastValidQty;
+        return;
+      }
+
+      const deltaQty = newQty - lastValidQty;
+      const deltaWeight = deltaQty * Number(chosenWeapon.weight);
+
+      // If increasing quantity, check encumbrance
+      if (deltaWeight > 0 && !canCarry(deltaWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry that many.";
+        modal.classList.remove("hidden");
+        weaponQty.value = lastValidQty;
+        return;
+      }
+
+      // Apply change
+      if (deltaWeight > 0) {
+        applyWeight(deltaWeight);
+      } else if (deltaWeight < 0) {
+        refundWeight(Math.abs(deltaWeight));
+      }
+
+      lastValidQty = newQty;
+    });
+
+    const incrementWeaponQty = document.createElement("button");
+    incrementWeaponQty.textContent = "+";
+    incrementWeaponQty.style.cursor = "pointer";
+    incrementWeaponQty.style.borderRadius = "50%";
+    incrementWeaponQty.style.backgroundColor = "greenyellow";
+
+    const decrementWeaponQty = document.createElement("button");
+    decrementWeaponQty.textContent = "-";
+    decrementWeaponQty.style.cursor = "pointer";
+    decrementWeaponQty.style.borderRadius = "50%";
+    decrementWeaponQty.style.backgroundColor = "red";
+
+    incrementWeaponQty.addEventListener("click", () => {
+      const projectedWeight = Number(chosenWeapon.weight);
+
+      if (!canCarry(projectedWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry any more weight.";
+        modal.classList.remove("hidden");
+        return;
+      }
+
+      lastValidQty++;
+      weaponQty.value = lastValidQty;
+      applyWeight(projectedWeight);
+    });
+
+    decrementWeaponQty.addEventListener("click", () => {
+      if (lastValidQty <= 1) return;
+      lastValidQty--;
+      weaponQty.value = lastValidQty;
+      refundWeight(chosenWeapon.weight);
+    });
+
+    quantityWeaponDiv.append(incrementWeaponQty, weaponQty, decrementWeaponQty);
+
+    const addedWeapon = document.createElement("div");
+    addedWeapon.innerHTML = `<b>${chosenWeapon.name} (${chosenWeapon.weight} lbs)</b>`;
+    addedWeapon.style.cursor = "pointer";
+    addedWeapon.style.fontSize = "x-large";
+
+    addedWeapon.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const qty = Number(weaponQty.value);
+      refundWeight(qty * weaponWeight);
+      weaponDisplay.removeChild(weaponDiv);
+    });
+
+    weaponDiv.append(quantityWeaponDiv, addedWeapon);
+    weaponDisplay.appendChild(weaponDiv);
+
+    /* ===================== ARMOUR ===================== */
+  } else if (currentEquipmentType === "add-armour") {
+    const alreadyAdded = Array.from(armourDisplay.children).some(
+      (child) => child.dataset.armour === value,
     );
 
-    if (!alreadyAdded) {
-      // Find the selected weapon from the array
-      const chosenArmour = armors.find((w) => w.value === value);
-      if (!chosenArmour) return;
-
-      // Update the title and description
-      title.textContent = chosenArmour.name;
-      description.textContent = chosenArmour.description;
-
-      // Create the new div
-      const addedArmour = document.createElement("div");
-      addedArmour.dataset.armour = chosenArmour.value; // store value for duplicate check
-      addedArmour.innerHTML = `<b>${chosenArmour.name}</b>`;
-      addedArmour.style.backgroundColor = "aliceblue";
-      addedArmour.style.border = "2px solid black";
-      addedArmour.style.borderRadius = "10%";
-      addedArmour.style.cursor = "pointer";
-
-      // Add right-click removal
-      addedArmour.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        armourContainer.removeChild(addedArmour);
-      });
-
-      // Append to container
-      armourContainer.appendChild(addedArmour);
-    } else {
+    if (alreadyAdded) {
       title.textContent = "WARNING";
       description.textContent = "Armour already added!";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
     }
-  } else if (currentEquipmentType == "item-add") {
-    // Check if weapon already exists in the container
-    const alreadyAdded = Array.from(itemContainer.children).some(
-      (child) => child.dataset.item === value
+
+    const chosenArmour = armors.find((a) => a.value === value);
+    if (!chosenArmour) return;
+
+    const armourWeight = Number(chosenArmour.weight);
+
+    // Encumbrance check BEFORE adding
+    if (!canCarry(armourWeight)) {
+      title.textContent = "ENCUMBERED";
+      description.textContent = "You cannot carry this armour.";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
+    }
+
+    applyWeight(armourWeight);
+
+    title.textContent = `${chosenArmour.name} (${armourWeight} lbs)`;
+    description.textContent = chosenArmour.description;
+
+    const armourDiv = document.createElement("div");
+    armourDiv.dataset.armour = chosenArmour.value;
+    armourDiv.style.display = "flex";
+    armourDiv.style.gap = "10px";
+    armourDiv.style.alignItems = "center";
+
+    /* Quantity Controls */
+    const quantityArmourDiv = document.createElement("div");
+    quantityArmourDiv.style.display = "flex";
+    quantityArmourDiv.style.alignItems = "center";
+
+    let lastValidQty = 1;
+
+    const armourQty = document.createElement("input");
+    armourQty.type = "number";
+    armourQty.min = 1;
+    armourQty.step = 1;
+    armourQty.value = 1;
+    armourQty.style.width = "40px";
+    armourQty.style.height = "30px";
+    armourQty.style.textAlign = "center";
+
+    armourQty.addEventListener("change", () => {
+      let newQty = Number(armourQty.value);
+
+      // Invalid input protection
+      if (!Number.isInteger(newQty) || newQty < 1) {
+        armourQty.value = lastValidQty;
+        return;
+      }
+
+      const deltaQty = newQty - lastValidQty;
+      const deltaWeight = deltaQty * Number(chosenArmour.weight);
+
+      // If increasing quantity, check encumbrance
+      if (deltaWeight > 0 && !canCarry(deltaWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry that many.";
+        modal.classList.remove("hidden");
+        armourQty.value = lastValidQty;
+        return;
+      }
+
+      // Apply change
+      if (deltaWeight > 0) {
+        applyWeight(deltaWeight);
+      } else if (deltaWeight < 0) {
+        refundWeight(Math.abs(deltaWeight));
+      }
+
+      lastValidQty = newQty;
+    });
+
+    const incrementArmourQty = document.createElement("button");
+    incrementArmourQty.textContent = "+";
+    incrementArmourQty.style.cursor = "pointer";
+    incrementArmourQty.style.borderRadius = "50%";
+    incrementArmourQty.style.backgroundColor = "greenyellow";
+
+    const decrementArmourQty = document.createElement("button");
+    decrementArmourQty.textContent = "-";
+    decrementArmourQty.style.cursor = "pointer";
+    decrementArmourQty.style.borderRadius = "50%";
+    decrementArmourQty.style.backgroundColor = "red";
+
+    incrementArmourQty.addEventListener("click", () => {
+      const projectedWeight = Number(chosenArmour.weight);
+
+      if (!canCarry(projectedWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry any more weight.";
+        modal.classList.remove("hidden");
+        return;
+      }
+
+      lastValidQty++;
+      armourQty.value = lastValidQty;
+      applyWeight(projectedWeight);
+    });
+
+    decrementArmourQty.addEventListener("click", () => {
+      if (lastValidQty <= 1) return;
+      lastValidQty--;
+      armourQty.value = lastValidQty;
+      refundWeight(chosenArmour.weight);
+    });
+
+    quantityArmourDiv.append(incrementArmourQty, armourQty, decrementArmourQty);
+
+    const addedArmour = document.createElement("div");
+    addedArmour.innerHTML = `<b>${chosenArmour.name} (${chosenArmour.weight} lbs)</b>`;
+    addedArmour.style.cursor = "pointer";
+    addedArmour.style.fontSize = "x-large";
+
+    addedArmour.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const qty = Number(armourQty.value);
+      refundWeight(qty * armourWeight);
+      armourDisplay.removeChild(armourDiv);
+    });
+
+    armourDiv.append(quantityArmourDiv, addedArmour);
+    armourDisplay.appendChild(armourDiv);
+
+    /* ===================== ITEMS ===================== */
+  } else if (currentEquipmentType === "add-items") {
+    const alreadyAdded = Array.from(itemDisplay.children).some(
+      (child) => child.dataset.item === value,
     );
 
-    if (!alreadyAdded) {
-      // Find the selected weapon from the array
-      const chosenItem = items.find((w) => w.value === value);
-      if (!chosenItem) return;
-
-      // Update the title and description
-      title.textContent = chosenItem.name;
-      description.textContent = chosenItem.description;
-
-      // Create the new div
-      const addedItem = document.createElement("div");
-      addedItem.dataset.item = chosenItem.value; // store value for duplicate check
-      addedItem.innerHTML = `<b>${chosenItem.name}</b>`;
-      addedItem.style.backgroundColor = "aliceblue";
-      addedItem.style.border = "2px solid black";
-      addedItem.style.borderRadius = "10%";
-      addedItem.style.cursor = "pointer";
-
-      // Add right-click removal
-      addedItem.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        itemContainer.removeChild(addedItem);
-      });
-
-      // Append to container
-      itemContainer.appendChild(addedItem);
-    } else {
+    if (alreadyAdded) {
       title.textContent = "WARNING";
       description.textContent = "Item already added!";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
     }
-  }
 
+    const chosenItem = items.find((a) => a.value === value);
+    if (!chosenItem) return;
+
+    const itemWeight = Number(chosenItem.weight);
+
+    // Encumbrance check BEFORE adding
+    if (!canCarry(itemWeight)) {
+      title.textContent = "ENCUMBERED";
+      description.textContent = "You cannot carry this item.";
+      modal.classList.remove("hidden");
+      equipment.classList.add("hidden");
+      return;
+    }
+
+    applyWeight(itemWeight);
+
+    title.textContent = `${chosenItem.name} (${itemWeight} lbs)`;
+    description.textContent = chosenItem.description;
+
+    const itemDiv = document.createElement("div");
+    itemDiv.dataset.item = chosenItem.value;
+    itemDiv.style.display = "flex";
+    itemDiv.style.gap = "10px";
+    itemDiv.style.alignItems = "center";
+
+    /* Quantity Controls */
+    const quantityItemDiv = document.createElement("div");
+    quantityItemDiv.style.display = "flex";
+    quantityItemDiv.style.alignItems = "center";
+
+    let lastValidQty = 1;
+
+    const itemQty = document.createElement("input");
+    itemQty.type = "number";
+    itemQty.min = 1;
+    itemQty.step = 1;
+    itemQty.value = 1;
+    itemQty.style.width = "40px";
+    itemQty.style.height = "30px";
+    itemQty.style.textAlign = "center";
+
+    itemQty.addEventListener("change", () => {
+      let newQty = Number(itemQty.value);
+
+      // Invalid input protection
+      if (!Number.isInteger(newQty) || newQty < 1) {
+        itemQty.value = lastValidQty;
+        return;
+      }
+
+      const deltaQty = newQty - lastValidQty;
+      const deltaWeight = deltaQty * Number(chosenItem.weight);
+
+      // If increasing quantity, check encumbrance
+      if (deltaWeight > 0 && !canCarry(deltaWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry that many.";
+        modal.classList.remove("hidden");
+        itemQty.value = lastValidQty;
+        return;
+      }
+
+      // Apply change
+      if (deltaWeight > 0) {
+        applyWeight(deltaWeight);
+      } else if (deltaWeight < 0) {
+        refundWeight(Math.abs(deltaWeight));
+      }
+
+      lastValidQty = newQty;
+    });
+
+    const incrementItemQty = document.createElement("button");
+    incrementItemQty.textContent = "+";
+    incrementItemQty.style.cursor = "pointer";
+    incrementItemQty.style.borderRadius = "50%";
+    incrementItemQty.style.backgroundColor = "greenyellow";
+
+    const decrementItemQty = document.createElement("button");
+    decrementItemQty.textContent = "-";
+    decrementItemQty.style.cursor = "pointer";
+    decrementItemQty.style.borderRadius = "50%";
+    decrementItemQty.style.backgroundColor = "red";
+
+    incrementItemQty.addEventListener("click", () => {
+      const projectedWeight = Number(chosenItem.weight);
+
+      if (!canCarry(projectedWeight)) {
+        title.textContent = "ENCUMBERED";
+        description.textContent = "You cannot carry any more weight.";
+        modal.classList.remove("hidden");
+        return;
+      }
+
+      lastValidQty++;
+      itemQty.value = lastValidQty;
+      applyWeight(projectedWeight);
+    });
+
+    decrementItemQty.addEventListener("click", () => {
+      if (lastValidQty <= 1) return;
+      lastValidQty--;
+      itemQty.value = lastValidQty;
+      refundWeight(chosenItem.weight);
+    });
+
+    quantityItemDiv.append(incrementItemQty, itemQty, decrementItemQty);
+
+    const addedItem = document.createElement("div");
+    addedItem.innerHTML = `<b>${chosenItem.name} (${chosenItem.weight} lbs)</b>`;
+    addedItem.style.cursor = "pointer";
+    addedItem.style.fontSize = "x-large";
+
+    addedItem.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const qty = Number(itemQty.value);
+      refundWeight(qty * itemWeight);
+      itemDisplay.removeChild(itemDiv);
+    });
+
+    itemDiv.append(quantityItemDiv, addedItem);
+    itemDisplay.appendChild(itemDiv);
+  }
   equipment.classList.add("hidden");
   modal.classList.remove("hidden");
 });
 
+//Encumbrance Check
+function maxCarry() {
+  return Number(strength.value) * 15;
+}
+
+function canCarry(extraWeight) {
+  const maxCarry = Number(strength.value) * 15;
+  return totalWeight + Number(extraWeight) <= maxCarry;
+}
+
+function applyWeight(weight) {
+  totalWeight += Number(weight);
+  currentWeight.textContent = `Current Carrying Weight = ${totalWeight} lbs`;
+  remainingWeight.textContent = `Remaining Carrying Weight = ${+strength.value * 15 - totalWeight} lbs`;
+}
+
+function refundWeight(weight) {
+  totalWeight -= Number(weight);
+  currentWeight.textContent = `Current Carrying Weight = ${totalWeight} lbs`;
+  remainingWeight.textContent = `Remaining Carrying Weight = ${+strength.value * 15 - totalWeight} lbs`;
+}
+
+function adjustSpeedBasedOnEncumbrance(isEncumbered) {
+  let originalSpeed = +speed.textContent;
+  if (isEncumbered) {
+    speed.textContent -= 10;
+  } else {
+    if (+speed.textContent !== originalSpeed) {
+      speed.textContent = originalSpeed;
+    }
+  }
+}
+
 //Items or Inventory
 
 //Adding items
-//Armour Choice
-addItem.addEventListener("click", (e) => {
-  if (e.target.id === "item-add") {
+//Item Choice
+// addItem.addEventListener("click", (e) => {
+//   if (e.target.id === "item-add") {
+//     populateSelect(equipmentSelect, items);
+//   }
+//   equipmentTitle.textContent = "Items Dialog";
+//   equipment.classList.remove("hidden");
+//   currentEquipmentType = e.target.id;
+// });
+
+itemAdd.addEventListener("click", (e) => {
+  if (e.target.id === "add-items") {
     populateSelect(equipmentSelect, items);
   }
   equipmentTitle.textContent = "Items Dialog";
@@ -2851,3 +3911,13 @@ function addPackToInventory(character, packValue) {
     });
   });
 }
+
+inventoryExit.addEventListener("click", () => {
+  sheet.style.display = "block";
+  equipmentPage.style.display = "none";
+});
+
+backstoryExit.addEventListener("click", () => {
+  sheet.style.display = "block";
+  backstoryPage.style.display = "none";
+});
