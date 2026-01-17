@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .whole-container {
   height: 940px;
   width: 1890px;
