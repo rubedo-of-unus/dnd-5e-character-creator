@@ -30,6 +30,8 @@ The application currently allows the user to:
 
 ## Upcoming Updates
 - Heal HP fully by clicking long rest
+- Add feats
+- Add racial traits
 - Apply class features
 - Add subclasses
 - Apply background bonuses
