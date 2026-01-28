@@ -31,6 +31,14 @@
               <select name="race" id="race-options" required>
                 <!-- <option value="" disabled selected hidden>Select a race</option> -->
               </select>
+              <label id="sub-race-label" class="hidden">
+                Sub-Race
+                <select
+                  name="sub-race"
+                  id="sub-race-options"
+                  class="hidden"
+                ></select>
+              </label>
               <!-- <div id="race-info" class="info-box">
               <em>Select a race to see details.</em>
             </div> -->
@@ -73,7 +81,7 @@
               <button class="minus"></button>
               <div class="score">
                 <input type="number" min="1" max="40" id="strength" />
-                <div class="modifier" data-ability="might"></div>
+                <div id="str-mod" class="modifier" data-ability="might"></div>
               </div>
               <button class="plus"></button>
             </div>
@@ -101,7 +109,7 @@
               <button class="minus"></button>
               <div class="score">
                 <input type="number" min="1" max="40" id="constitution" />
-                <div class="modifier" data-ability="resolve"></div>
+                <div id="con-mod" class="modifier" data-ability="resolve"></div>
               </div>
               <button class="plus"></button>
             </div>
@@ -113,7 +121,11 @@
               <button class="minus"></button>
               <div class="score">
                 <input type="number" min="1" max="40" id="intelligence" />
-                <div class="modifier" data-ability="erudition"></div>
+                <div
+                  id="int-mod"
+                  class="modifier"
+                  data-ability="erudition"
+                ></div>
               </div>
               <button class="plus"></button>
             </div>
@@ -125,7 +137,11 @@
               <button class="minus"></button>
               <div class="score">
                 <input type="number" min="1" max="40" id="wisdom" />
-                <div class="modifier" data-ability="pragmatism"></div>
+                <div
+                  id="wis-mod"
+                  class="modifier"
+                  data-ability="pragmatism"
+                ></div>
               </div>
               <button class="plus"></button>
             </div>
@@ -137,7 +153,11 @@
               <button class="minus"></button>
               <div class="score">
                 <input type="number" min="1" max="40" id="charisma" />
-                <div class="modifier" data-ability="conveyance"></div>
+                <div
+                  id="cha-mod"
+                  class="modifier"
+                  data-ability="conveyance"
+                ></div>
               </div>
               <button class="plus"></button>
             </div>
@@ -150,9 +170,12 @@
                   <label>Background: </label>
                   <div class="background"></div>
                 </div>
-                <div>
-                  <label>Race: </label>
-                  <div class="race"></div>
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <div>
+                    <label>Race: </label>
+                    <div class="race"></div>
+                  </div>
+                  <div class="sub-race hidden"></div>
                 </div>
                 <div>
                   <label>Class: </label>
@@ -164,9 +187,13 @@
                   <label>Proficiency Bonus: </label>
                   <div class="proficiency"></div>
                 </div>
-                <div>
-                  <label>Speed: </label>
-                  <div class="speed"></div>
+                <div style="display: flex">
+                  <label>Speed:</label>
+                  &nbsp;
+                  <div style="display: flex">
+                    <div class="speed"></div>
+                    ft.
+                  </div>
                 </div>
                 <div>
                   <label>Size: </label>
@@ -223,7 +250,7 @@
                   </div>
                 </div>
               </div>
-              <div style="display: flex; align-items: center">
+              <div style="display: flex; align-items: center; gap: 50px">
                 <div class="death-saves">
                   <label id="death-saving-throw">Death Saves: </label>
                   <div id="death-saves">
@@ -269,7 +296,27 @@
                     </div>
                   </div>
                 </div>
-                <div>Hit Dice</div>
+                <div id="hit-dice">
+                  <label>Hit Dice:</label>
+                  <div id="hit-die-type">
+                    <label style="font-size: x-small; text-align: center"
+                      >Die Type</label
+                    >
+                    <div id="hp-die-type"></div>
+                  </div>
+                  <div id="current-hit-die-quantity">
+                    <label style="font-size: x-small">Current Hit Dice</label>
+                    <div id="current-hp-die-quantity"></div>
+                  </div>
+                  <div id="hit-die-quantity">
+                    <label style="font-size: x-small">Total Hit Dice</label>
+                    <div id="hp-die-quantity"></div>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <button id="short-rest">Short Rest</button>
+                  <button id="long-rest">Long Rest</button>
+                </div>
               </div>
             </div>
             <div class="skills">
@@ -484,14 +531,18 @@
           </div>
           <div class="miscellaneous">
             <div class="character-image">
-              <img src="assets/img/icons/user.png" alt="character image" />
-              <label for="image-character">Upload Image</label>
-              <input id="image-character" type="file" />
+              <img
+                id="profile-picture"
+                src="assets/img/icons/user.png"
+                alt="character image"
+              />
+              <label for="image-character-upload">Upload Image</label>
+              <input id="image-character-upload" type="file" accept="image/*" />
             </div>
             <div class="controls">
               <button id="backstory">BACKSTORY</button>
-              <button id="bonds">BONDS</button>
-              <button id="flaws">FLAWS</button>
+              <button id="race-traits">RACIAL TRAITS</button>
+              <button id="class-features">CLASS FEATURES</button>
               <br />
               <button id="equipment">EQUIPMENT</button>
               <button id="items">ITEMS</button>
@@ -632,6 +683,18 @@
       </div>
     </div>
 
+    <!-- Image Preview Popup -->
+    <div id="image-modal-popup" class="image-modal hidden">
+      <div style="position: relative" class="image-modal-content">
+        <h2 id="image-title"></h2>
+        <img id="image-preview" alt="image preview" />
+        <button id="close-image-modal">Close</button>
+        <button style="position: absolute; right: 20px" id="accept-image-modal">
+          Accept
+        </button>
+      </div>
+    </div>
+
     <!-- Language Popup -->
     <div id="language-popup" class="linguistic hidden">
       <div class="language-content">
@@ -690,6 +753,28 @@
         <select size="5" name="equipments" id="equipment-options"></select>
         <br />
         <button id="close-equipment">Close</button>
+      </div>
+    </div>
+
+    <!-- Short Rest Modal -->
+    <div id="short-rest-modal" class="short-rest-modal hidden">
+      <div class="short-rest-modal-content">
+        <h2>Short Rest</h2>
+
+        <p>
+          Hit Dice Available:
+          <strong id="hit-dice-available"></strong>
+        </p>
+
+        <label>
+          Spend Hit Dice:
+          <input type="number" id="hit-dice-to-spend" min="1" value="1" />
+        </label>
+
+        <div class="short-rest-modal-actions">
+          <button id="confirm-short-rest">Rest</button>
+          <button id="cancel-short-rest">Cancel</button>
+        </div>
       </div>
     </div>
   </body>
