@@ -44,4 +44,4 @@ The application currently allows the user to:
 - Allow user to select spells and cantrips
 
 ## Vision
-- Added functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
+- Add functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
