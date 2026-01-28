@@ -42,3 +42,6 @@ The application currently allows the user to:
 - Add languages automatically
 - Apply armour and weapon proficiencies based on class selection
 - Allow user to select spells and cantrips
+
+## Vision
+- Added functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
