@@ -28,13 +28,13 @@ The application currently allows the user to:
 - [x] Automatically sets speed, size and proficiency bonus
 - [x] Perform skill checks and saving throws
 - [x] Heal HP fully by clicking long rest
+- [x] Apply armour class when armour or shield is selected
 - [ ] Add feats
 - [ ] Add racial traits
 - [ ] Apply class features
 - [ ] Add subclasses
 - [ ] Apply background bonuses
 - [ ] Add remaining items from Player's Handbook to item list
-- [ ] Apply armour class when armour or shield is selected
 - [ ] Saving character sheet
 - [ ] Loading character sheet
 - [ ] Add languages automatically
