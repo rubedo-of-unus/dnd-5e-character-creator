@@ -1,6 +1,6 @@
 # D&D 5th Edition Character Creator (2014 Ruleset)
 ## Background
-The application is aimed to creating conveniences for players that wish to create a character using the rules of 5th edition. Though many applications exist for that purpose, this solution does not restrict any races, classes or backgrounds behind memberships, subscriptions or payments. In addition, this solution allows the user to create their own races, classes and backgrounds for homebrewing purposes.
+The application is aimed to creating conveniences for players that wish to create a character using the rules of 5th edition. Though many applications exist for that purpose, this solution does not restrict any races, classes or backgrounds behind memberships, subscriptions or payments. In addition, this solution allows the user to create their own races, classes and backgrounds for homebrewing purposes. Initially, the sources for this character creator will be official material.
 
 ## Installation and Usage
 1. Download the repository (Zipped Folder)
