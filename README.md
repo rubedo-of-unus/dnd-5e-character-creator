@@ -29,16 +29,16 @@ The application currently allows the user to:
 - [x] Perform skill checks and saving throws
 - [x] Heal HP fully by clicking long rest
 - [x] Apply armour class when armour or shield is selected
+- [x] Apply background bonuses
+- [ ] Apply armour and weapon proficiencies based on class selection
 - [ ] Add feats
 - [ ] Add racial traits
 - [ ] Apply class features
 - [ ] Add subclasses
-- [ ] Apply background bonuses
 - [ ] Add remaining items from Player's Handbook to item list
 - [ ] Saving character sheet
 - [ ] Loading character sheet
 - [ ] Add languages automatically
-- [ ] Apply armour and weapon proficiencies based on class selection
 - [ ] Allow user to select spells and cantrips
 
 ## Vision
