@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.5.0] 2026-01-29
+
+- Automated selection of skill proficiencies based on background selection
+- Added buttons that will display weapon proficiencies, armour proficiencies and tool proficiencies
+
 ## [0.4.0] 2026-01-29
 
 - Automated armour class calculation for armour, shields and characters without armour
@@ -23,6 +28,7 @@
 - Added code for application to repository
 - Added `CHANGELOG.md`
 - Added `version.yaml`
+
 
 
 
