@@ -454,19 +454,35 @@
                 <label>CHA</label>
                 <div id="cha">
                   <div>
-                    <input id="deception" type="checkbox" />
+                    <input
+                      id="deception"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
                     <label class="skill-check">Deception</label>
                   </div>
                   <div>
-                    <input id="intimidation" type="checkbox" />
+                    <input
+                      id="intimidation"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
                     <label class="skill-check">Intimidation</label>
                   </div>
                   <div>
-                    <input id="performance" type="checkbox" />
+                    <input
+                      id="performance"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
                     <label class="skill-check">Performance</label>
                   </div>
                   <div>
-                    <input id="persuasion" type="checkbox" />
+                    <input
+                      id="persuasion"
+                      class="skill-check-box"
+                      type="checkbox"
+                    />
                     <label class="skill-check">Persuasion</label>
                   </div>
                 </div>
@@ -567,34 +583,19 @@
           <label style="text-align: center"
             ><b><i>Equipment</i></b></label
           >
-          <!-- <div id="weapons" class="item-container">
-            <div class="weapon-plus">
-              <button id="weapon-add">+</button>
-              <label>Weapons: </label>
-            </div>
-            &nbsp; &nbsp;
-            <div class="added-weapons"></div>
-          </div>
-          <div id="armour" class="item-container">
-            <div class="armour-plus">
-              <button id="armour-add">+</button>
-              <label>Armour: </label>
-            </div>
-            &nbsp; &nbsp;
-            <div class="added-armour"></div>
-          </div>
-          <div id="items" class="item-container">
-            <div class="item-plus">
-              <button id="item-add">+</button>
-              <label>Items: </label>
-            </div>
-            &nbsp; &nbsp;
-            <div class="added-items"></div>
-          </div> -->
           <div class="inventory-container">
-            <button id="add-weapons">Add Weapons</button>
-            <button id="add-armour">Add Armour</button>
-            <button id="add-items">Add Items</button>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <button id="add-weapons">Add Weapons</button>
+              <button id="weapon-proficiency">Weapon Proficiency</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <button id="add-armour">Add Armour</button>
+              <button id="armour-proficiency">Armour Proficiency</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <button id="add-items">Add Items</button>
+              <button id="tool-proficiency">Tool Proficiency</button>
+            </div>
           </div>
           <div class="inventory">
             <div style="display: flex; align-items: center">
@@ -680,6 +681,45 @@
         <p id="description"></p>
 
         <button id="close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Weapon Proficiency Popup -->
+    <div
+      id="weapon-proficiency-modal-popup"
+      class="weapon-proficiency-modal hidden"
+    >
+      <div class="weapon-proficiency-modal-content">
+        <h2 id="weapon-proficiency-title"></h2>
+        <div id="weapon-proficiencies"></div>
+
+        <button id="weapon-proficiency-close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Armour Proficiency Popup -->
+    <div
+      id="armour-proficiency-modal-popup"
+      class="armour-proficiency-modal hidden"
+    >
+      <div class="armour-proficiency-modal-content">
+        <h2 id="armour-proficiency-title"></h2>
+        <div id="armour-proficiencies"></div>
+
+        <button id="armour-proficiency-close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Tool Proficiency Popup -->
+    <div
+      id="tool-proficiency-modal-popup"
+      class="tool-proficiency-modal hidden"
+    >
+      <div class="tool-proficiency-modal-content">
+        <h2 id="tool-proficiency-title"></h2>
+        <div id="tool-proficiencies"></div>
+
+        <button id="tool-proficiency-close-modal">Close</button>
       </div>
     </div>
 
