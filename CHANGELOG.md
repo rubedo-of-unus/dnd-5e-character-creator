@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.4.0] 2026-01-29
+
+- Automated armour class calculation for armour, shields and characters without armour
+
 ## [0.3.0] 2026-01-28
 
 - Added upload character image feature
@@ -18,5 +22,6 @@
 - Added code for application to repository
 - Added `CHANGELOG.md`
 - Added `version.yaml`
+
 
 
