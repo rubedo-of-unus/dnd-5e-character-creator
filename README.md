@@ -30,7 +30,7 @@ The application currently allows the user to:
 - [x] Heal HP fully by clicking long rest
 - [x] Apply armour class when armour or shield is selected
 - [x] Apply background bonuses
-- [ ] Apply armour and weapon proficiencies based on class selection
+- [x] Apply armour and weapon proficiencies based on class selection
 - [ ] Add feats
 - [ ] Add racial traits
 - [ ] Apply class features
@@ -42,5 +42,6 @@ The application currently allows the user to:
 - [ ] Allow user to select spells and cantrips
 
 ## Vision
-- Add races, classes and backgrounds from sources other than Player's Handbook
-- Add functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
+- [ ] Add races, classes and backgrounds from sources other than Player's Handbook
+- [ ] Migrate the application to a desktop application
+- [ ] Add functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
