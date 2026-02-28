@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.6.0] 2026-02-28
+
+- Added weapon proficiencies, armour proficiencies and tool proficiencies
+- Disabled characters from donning armour/shield they are not proficient in
+- Avoided added proficiency bonus if using weapon a character is not proficient in
+- Added attack and damage rolling
+
 ## [0.5.0] 2026-01-29
 
 - Automated selection of skill proficiencies based on background selection
@@ -28,6 +35,7 @@
 - Added code for application to repository
 - Added `CHANGELOG.md`
 - Added `version.yaml`
+
 
 
 
