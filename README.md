@@ -43,5 +43,5 @@ The application currently allows the user to:
 
 ## Vision
 - [ ] Add races, classes and backgrounds from sources other than Player's Handbook
-- [ ] Migrate the application to a desktop application
+- [ ] Migrate the application to a desktop application (using Tauri)
 - [ ] Add functionality to allow user to create custom races, subraces, classes, subclasses and background for homebrewing purposes
